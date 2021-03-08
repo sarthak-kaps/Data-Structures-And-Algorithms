@@ -2,8 +2,6 @@
 
 using namespace std;
 
-constexpr int __inf = 1e9;
-
 class segtree_node {
 public :
     /* Class Data Members */
@@ -12,27 +10,8 @@ public :
     * constructor: identity element of monoid (you should have the neutral values)
     * constructor: element created by combining 2 elements
     */
-    typedef int dtype; // change this to long long if required
-    int l, r;
-    dtype mn, mx, sum, gap;
-    segtree_node() {
-       mn =  __inf, mx = -__inf,  sum = 0, gap = 0;
-       l = -1, r = -1;
-    }
-    segtree_node(const segtree_node& one, const segtree_node& two) {
-        l = one.l;
-        r = two.r;
-        if(l == -1) {
-            l = two.l;
-        }
-        else if(r == -1) {
-            r =  one.r;
-        }
-        mn = min(one.mn, two.mn);
-        mx = max(one.mx, two.mx);
-        sum = one.sum + two.sum;
-        gap = one.gap + two.gap;
-    }  
+    segtree_node() {}
+    segtree_node(const segtree_node& one, const segtree_node& two) {}  
 };
 
 class Function {
@@ -46,25 +25,13 @@ public :
     * whether this function is the identity function
     * function definition (action on segtree_node)
     */
-    int a, b;
-    Function() {
-        a = 1, b = 0;
-    }  
-    Function(int a, int b) : a(a), b(b) {}
-    Function(const Function& f1, const Function& f2) {
-        a = f1.a * f2.a;
-        b = f1.a * f2.b + f1.b;
-    }  
-    bool is_identity() const {
-        return (a == 1 and b == 0);
-    }  
-    segtree_node operator()(const segtree_node& node) {
-        segtree_node ans = node;
-        ans.mx = a * node.mx + b;
-        ans.mn = a * node.mn + b;
-        ans.sum = a * node.sum + b * node.gap;  
-        return ans;
-    }  
+
+    Function() {}  
+    Function(/**/) {}
+    Function(const Function& f1, const Function& f2) {}  
+    bool is_identity() const {}  
+    segtree_node operator()(const segtree_node& node) {}  
+
 };
 
 template <class M, class F>
@@ -183,42 +150,3 @@ public:
     }
 };
 
-
-// test code
-
-int main(void) {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    for(int i = 0; i < n; i++) {
-       cin >> v[i];
-    }
-    vector<segtree_node> leaves(n);
-    for(int i = 0; i < n; i++) {
-       leaves[i].mn = leaves[i].mx = leaves[i].sum = v[i];
-       leaves[i].l = leaves[i].r = i;
-       leaves[i].gap = 1;
-    }
-    segtree<segtree_node, Function> s(leaves);
-    int q;
-    cin >> q;
-    while(q --> 0) {
-        int op;
-        cin >> op;
-        if(op == 0) {
-            int x, y;
-            cin >> x >> y;
-            x--, y--;
-            auto res = s.query(x, y);
-            cout << res.mn << ' ' << res.mx << ' ' << res.sum << endl;
-        }
-        else {
-            int x, y;
-            cin >> x >> y;
-            int up;
-            cin >> up;
-            x--, y--;
-            s.update(x, y, Function(1, up));
-        }
-    }
-}
