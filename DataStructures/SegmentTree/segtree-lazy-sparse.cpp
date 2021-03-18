@@ -63,7 +63,6 @@ public :
         ans.sum = a * ans.sum + b * node.gap;
         return ans;
     }  
-
 };
 
 template <class M, class F>
@@ -217,7 +216,7 @@ int main(void) {
     segtree_node s_node;
     s_node.l = 0, s_node.r = 1e9;
     s_node.gap = s_node.r - s_node.l + 1;
-    s_node.mn = 0, s_node.mx = 0, s_node.gap = 0;
+    s_node.mn = 0, s_node.mx = 0, s_node.sum = 0;
     segtree_sparse<segtree_node, Function> s(s_node, Function());
     int q;
     cin >> q;

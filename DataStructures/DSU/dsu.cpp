@@ -2,6 +2,17 @@
 
 using namespace std;
 
+/* 
+ * [Description] : Implementation Of Disjoint Set Union Class
+ * Note - This implementation does not use Union By Rank/Size, can be easily encorporated.
+ * Reason - We lose control over the parent of the Union which is sometimes important.
+ * Running Time - 
+    parent(i) - alpha*(n)
+    size(i) - alpha*(n)
+    Union(i) - O(1)
+    get_distinct - O(1)
+*/
+
 class DSU {
 private :
     vector<int> set;

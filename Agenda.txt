@@ -1,0 +1,57 @@
+Learn And Implement Algorithms And Data Structures
+
+ 
+
+Data Structures 
+-------> Segment Tree
+         Lazy Segment Tree
+         DSU
+         Fenwick Tree
+         Trie 
+         Treap
+         Self Practice 
+         -------->  Hash Table
+         -------->  Linked List, Stack, Queue
+         -------->  AVL Tree
+
+Algorithms
+Number Theory
+-------> GCD and LCM
+         Chinese Remainder Theorem
+         Seive Of Eratosthenes
+         Prime Factors Of a number
+         All factors of a number
+         Modular Inverse
+                   
+Math
+-------> PNC
+         Fast Fourier Transform
+         Linear Recurrence
+
+Geometry
+-------> Convex Hull
+         Closest Pair
+         
+     
+Graph
+-------> Shortest Paths
+         Min/Max Spanning Tree
+         Cut Vertices and Bridges
+         Least Common Ancestor
+         Bi Connected Components
+         Topological Sort
+         DFS Forest
+         Strong Connected Components
+         Bipartite Matching
+         Max Flow
+         Min Cut
+         Heavy Light Decomposition
+         Euler Tour
+
+Strings 
+-------> Aho Corasick
+         KMP
+         Suffix Array
+         Hashing
+         Suffix Tree
+         Z function    
