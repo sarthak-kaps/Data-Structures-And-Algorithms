@@ -2,6 +2,13 @@
 
 using namespace std;
 
+/*
+ * This is effectively a fork of the Generic Segment Tree Implementation
+ * The aim is to showcase the use of the Generic Segment Tree for a common case
+ * Changes done are only in segtree_node and Function
+ * Refer to details in the generic implementation
+*/
+
 constexpr int __inf = 1e9;
 
 class segtree_node {
@@ -22,12 +29,6 @@ public :
     segtree_node(const segtree_node& one, const segtree_node& two) {
         l = one.l;
         r = two.r;
-        if(l == -1) {
-            l = two.l;
-        }
-        else if(r == -1) {
-            r =  one.r;
-        }
         mn = min(one.mn, two.mn);
         mx = max(one.mx, two.mx);
         sum = one.sum + two.sum;
@@ -98,6 +99,8 @@ public:
     explicit segtree(std::vector<M>& v):
         n(v.size()), values(segtree_size(v.size())), pends(values.size()) {identity_check(); assign(v);}
 
+    explicit segtree(int _n):
+        n(_n), values(segtree_size(_n)), pends(values.size()) {identity_check();}
 private:
     // build function with vector of leaves 
     void assign_values(int root, int first, int last, vector<M> &a) {
@@ -136,9 +139,7 @@ private:
     }
     // query from range l to r (zero indexing)
     M query(int root, int first, int last, int l, int r) {
-        if(l > last or r < first) {
-            return M();
-        }
+        assert(l <= last and r >= first);
         propagate(root, first, last);
         if(l <= first and last <= r) {
             return values[root];
@@ -146,6 +147,12 @@ private:
         else {
             int left = 2 * root + 1;
             int mid = (first + last) / 2;
+            if(l > mid or r < first) {
+                return query(left + 1, mid + 1, last, l, r);
+            }
+            else if(l > last or r < mid + 1) {
+                return query(left, first, mid, l, r);
+            }
             return M(query(left, first, mid, l, r), query(left + 1, mid + 1, last, l, r));
         }
     }
