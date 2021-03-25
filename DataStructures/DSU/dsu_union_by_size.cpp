@@ -4,8 +4,7 @@ using namespace std;
 
 /* 
  * [Description] : Implementation Of Disjoint Set Union Class
- * Note - This implementation does not use Union By Rank/Size, can be easily encorporated.
- * Reason - We lose control over the parent of the Union which is sometimes important.
+ * Note - This implementation uses Union By Size
  * Running Time - 
     parent(i) - alpha(n)
     size(i) - alpha(n)
@@ -38,6 +37,9 @@ public :
         j = parent(j);
         if(i == j) {
             return;
+        }
+        if(size(j) >= size(i)) { 
+            swap(i, j);
         }
         set[i] += set[j];
         set[j] = i;
