@@ -2,6 +2,21 @@
 
 using namespace std;
 
+/*
+ * [Description] : Generic Sparse Segment Tree
+ * By sparse we mean that the nodes are not stored contiguously and are allocated dynamically when required
+ * Use cases can be when the ranges are huge e.g [0, 1e18] etc.
+ * Can also be used as a normal generic segment tree - The interface is the same - expected to be faster
+ * Again we have segtree_node and Function classes, we expect same functionalities as before
+    [Note] : We have one extra requirement, that the l, r, gap fields are always implemented in segtree_node
+             This is not a big requirement and is necessary.
+             l = start of the range handled by the segtree_node
+             r = end of the range handled by the segtree_node
+             gap = r - l + 1
+ * All functions are the same as in Generic Segment Tree with same time complexity
+ * An example code is put for understanding
+*/
+
 constexpr int __inf = 1e9;
 
 
