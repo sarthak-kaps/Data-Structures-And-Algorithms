@@ -23,7 +23,7 @@ inline T gcd(T a, T b) {
 }
 
 template <class T>
-inline T lcm(T a, T b) {
-    return a * b / gcd(a, b);
+inline int64_t lcm(T a, T b) {
+    return ((int64_t) a * b) / gcd(a, b);
 }
 
