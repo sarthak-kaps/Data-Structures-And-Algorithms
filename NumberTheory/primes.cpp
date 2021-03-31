@@ -24,12 +24,12 @@ vector<int> sieve(int n) {
 
 /*
  * [Description] : Modular Exponentiation, compute (a ^ b) % n
- * Running Time : log(b)
+ * Running Time : O(log(b))
 */
 
 // width of a should be enough to prevent overflows, to be safe pass higher widths (like int64_t for example)
-template <class T, class V>
-T modular_exp(T a, V b, V n) {
+template <class T, class V, class W>
+T modular_exp(T a, V b, W n) {
    T res = T(1);
    while(b) {
        if(b & 1) {
