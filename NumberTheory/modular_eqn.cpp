@@ -57,7 +57,7 @@ array<T, 3> extended_gcd(T a, T b) {
  *                 The algorithm has been referred from CLRS - Chapter 31, Section 4
  *
  * Running Time : O(log(n))
-*/
+ */
 
 template <class T>
 vector<T> modular_equation_solver(T a, T b, T n) {
@@ -80,10 +80,28 @@ vector<T> modular_equation_solver(T a, T b, T n) {
     return {};
 }
 
-int main() {
-    int a, b, n;
-    cin >> a >> b >> n;
-    for(auto& e : modular_equation_solver(a, b, n)) {
-        cout << e << ' ';
+/*
+ * [Description] : Chinese Remainder Theorem Special Case
+ *                 Input (a, b, m, n), finds x such that -
+ *                 x  \equiv a (mod m)
+ *                 x  \equiv b (mod n)
+ *                 Still not properly understood
+ *
+ * Running Time : O(log n)
+ */
+
+int64_t crt(int64_t a, int64_t b, int64_t n, int64_t m) {
+    if(n > m) {
+        swap(n, m);
+        swap(a, b);
     }
+    auto s = extended_gcd(m, n);
+    auto g = s[0];
+    auto x = s[1];
+    assert((a - b) % g == 0); // else we have no solution
+    auto res = (b - a) % n * x % n / g * m + a;
+    if(res < 0) {
+        res += m * n / g;
+    }
+    return res;
 }
