@@ -18,7 +18,7 @@ public :
     int64_t factorial(int k) {
         return fact[k];
     }
-    int64_t power(int64_t a, int b) {
+    int64_t modular_exp(int64_t a, int b) {
         int64_t res = 1;
         while(b) {
             if(b & 1) {
@@ -30,7 +30,7 @@ public :
         return res;
     }
     int64_t mod_inverse(int64_t a) {
-        return power(a, mod - 2) % mod;
+        return modular_exp(a, mod - 2) % mod;
     }
     int64_t nPr(int n, int r) {
         return fact[n] * mod_inverse(fact[n - r]) % mod;
