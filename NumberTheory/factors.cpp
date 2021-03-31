@@ -21,6 +21,7 @@ vector<T> all_factors_simple(T n) {
 }
 
 /* [Description] : Function to find all prime factors of a number
+ *                 Returns prime factors along with their powers
  * Running Time : O(sqrt(n))
 */
 
@@ -71,7 +72,6 @@ namespace pollard_rho {
             x = f(x, c, n);
             y = f(f(y, c, n), c, n);
             g = __gcd(abs(x - y), n);
-            
         }
         return g;
     }
