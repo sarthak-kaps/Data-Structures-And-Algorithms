@@ -2,13 +2,20 @@
 
 using namespace std;
 
+/*
+ * [Description] : Combinatorics class, an object of this class supports the following in modular space - 
+ *                 1) Factorial 
+ *                 2) Permutation 
+ *                 3) Combination
+ */
+
 class PNC {
 private :
-    int n;
-    const int mod = 1000000007; // 988353244
+    const int mod;
+    int n; 
     vector<int64_t> fact;
 public :
-    PNC(int _n = (int) 1e6) : n(_n + 1) {
+    PNC(const int mod = 1000000007, int _n = (int) 1e6) : mod(mod), n(_n + 1) {
         fact.reserve(n);
         fact[0] = 1;
         for(int i = 1; i < n; i++) {
