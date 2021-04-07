@@ -34,6 +34,7 @@ public :
     undigraph(int _n) : graph<T>(_n) {}
     
     void add(int from, int to, T cost) {
+        assert(0 <= from and from < n and 0 <= to and to < n);
         g[from].push_back({from, to, cost});
         g[to].push_back({to, from, cost});
     }
