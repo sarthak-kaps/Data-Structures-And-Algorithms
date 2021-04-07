@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -35,7 +34,7 @@ public :
     undigraph(int _n) : graph<T>(_n) {}
     
     void add(int from, int to, T cost) {
-        g[from].push_back({from, to , cost});
+        g[from].push_back({from, to, cost});
         g[to].push_back({to, from, cost});
     }
 };

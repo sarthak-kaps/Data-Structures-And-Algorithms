@@ -18,6 +18,7 @@ public :
 
     vector<vector<edge>> g;
     int n;
+    
     graph(int _n) : n(_n) {
         g.resize(n);   
     }
