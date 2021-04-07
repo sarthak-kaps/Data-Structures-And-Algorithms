@@ -2,33 +2,6 @@
 
 using namespace std;
 
-/****************************************  
-    always call this with a >= b
-    we want to find at each stage x, y such that - 
-    ax + by = gcd(a, b)
-    
-    At the base case, gcd(a, b) = a, as b = 0
-    Thus a * x + b * y = a can be satisfied by setting
-    x = 1, y = arbitrary
-
-    Suppose we know the result for gcd(b, a % b)
-    Let it be x_1, y_1, then
-
-    b * x_1 + (a % b) * y_1 = gcd(a, b) ---- (1)
-    Now (a % b) = a - |_a / b_| * b,   |_a / b_| = floor(a / b)
-    
-    Therefore (1) becomes, 
-    b * x_1 + (a - |_a / b_| * b) * y_1 = gcd(a, b)
-    a * y_1 + b * (x_1 - |_a / b_| * y_1) = gcd(a, b)
-
-    On comparing this with a * x + b * y = gcd(a, b)
-    we get
-    x = y_1
-    y = (x_1 - |_a / b_| * y_1)
-
-    NOTE - There can be multiple solutions to this
-                        
-***************************************/
 template <class T>
 T extended_gcd(T a, T b, T& x, T& y) {
     if(b == 0) {
@@ -78,30 +51,4 @@ vector<T> modular_equation_solver(T a, T b, T n) {
         return solutions;
     }
     return {};
-}
-
-/*
- * [Description] : Chinese Remainder Theorem Special Case
- *                 Input (a, b, m, n), finds x such that -
- *                 x  \equiv a (mod m)
- *                 x  \equiv b (mod n)
- *                 Still not properly understood
- *
- * Running Time : O(log n)
- */
-
-int64_t crt(int64_t a, int64_t b, int64_t n, int64_t m) {
-    if(n > m) {
-        swap(n, m);
-        swap(a, b);
-    }
-    auto s = extended_gcd(m, n);
-    auto g = s[0];
-    auto x = s[1];
-    assert((a - b) % g == 0); // else we have no solution
-    auto res = (b - a) % n * x % n / g * m + a;
-    if(res < 0) {
-        res += m * n / g;
-    }
-    return res;
 }
