@@ -25,7 +25,6 @@ vector<vector<T>> all_pair_shortest_paths(const graph<T>& g) {
         for(int i = 0; i < g.n; i++) {
             for(int j = 0; j < g.n; j++) {
                 d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
-        
             }
             if(d[i][i] < 0) {
                 cout << "Negative cost cycle detected" << '\n';
