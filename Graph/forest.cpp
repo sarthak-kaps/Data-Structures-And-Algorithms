@@ -42,6 +42,6 @@ public :
         g[from].push_back({from, to, cost});
         g[to].push_back({to, from, cost});
         m++;
-        assert(m < n - 1);
+        assert(m <= n - 1);
     }
 };
