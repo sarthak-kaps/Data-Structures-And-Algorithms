@@ -12,5 +12,6 @@ Structure Of the repository -
 * `DataStructures`
 * `NumberTheory`
 * `Math`
+* `Graph`
 
 More to come !
