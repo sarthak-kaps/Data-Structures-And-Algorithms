@@ -22,7 +22,7 @@ using namespace std;
  */
  
 
-//A trie_node represents a the last character in some running prefix till that node
+//A trie_node represents the last character in some running prefix till that node
 
 class trie_node {
 public :
@@ -59,7 +59,7 @@ public :
         }
         root->children[index]->dup++;
         if(pos == s.length() - 1) {
-            root->children[index]->end = true; // we are adding the last character
+            root->children[index]->end++; // we are adding the last character and have completed the string
         }
         add(root->children[index], s, pos + 1);
     }
