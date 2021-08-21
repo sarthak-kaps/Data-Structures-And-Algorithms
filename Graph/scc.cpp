@@ -56,7 +56,7 @@ vector<vector<int>> strong_components(digraph<T>& g) {
         }
 
         if(low[u] == in[u]) {  // vertex u is the root of its strong component
-            st.push_back({}); // we have a new strong component
+            components.push_back({}); // we have a new strong component
             while(st.back() != u)  {
                 components[c_id].push_back(st.back());
                 st.pop_back();
