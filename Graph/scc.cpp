@@ -34,7 +34,7 @@ vector<vector<int>> strong_components(digraph<T>& g) {
     int TIME = 0;
     vector<int> st; // stack to hold the vertices in the current strong component
     int c_id = 0; // current component id
-    vector<vector<int>> components;
+    vector<vector<int>> components; // stores the strong components
     
     function<void(int)> tarjan_dfs = [&] (int u) {
         visited[u] = true;
@@ -55,7 +55,8 @@ vector<vector<int>> strong_components(digraph<T>& g) {
             }
         }
 
-        if(low[u] == in[u]) {   // vertex u is the root of its strong component
+        if(low[u] == in[u]) {  // vertex u is the root of its strong component
+            st.push_back({}); // we have a new strong component
             while(st.back() != u)  {
                 components[c_id].push_back(st.back());
                 st.pop_back();
