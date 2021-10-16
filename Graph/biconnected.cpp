@@ -57,7 +57,7 @@ vector<typename undigraph<T>::edge> cut_vertices_and_bridges(undigraph<T>& g) {
                     c_id++; // increment the component id
                 }
             }
-            else {
+            else if (v != par[u]) {
                 low[u] = min(low[u], in[v]);  // we have a back edge here
             }
         }
