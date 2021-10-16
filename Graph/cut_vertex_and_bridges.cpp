@@ -46,7 +46,7 @@ vector<typename undigraph<T>::edge> cut_vertices_and_bridges(undigraph<T>& g, ve
                 low[u] = min(low[u], low[v]);  // low[u] can also be determined by low[v] for v in dfs subtree of u
                 if(par[u] != u and in[u] <= low[v]) {  // u is not a root and satisfies the condition to be the cut vertex
                     is_cut_vertex[u] = true;
-                    if(is_cut_vertex[v]) {
+                    if(in[u] < low[v]) {  // condition for e to be a bridge
                         bridges.push_back(e);
                     }
                 }
