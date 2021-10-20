@@ -52,8 +52,8 @@ vector<typename undigraph<T>::edge> cut_vertices_and_bridges(undigraph<T>& g, ve
                 }
                 num_child++;  // increment the number of children
             }
-            else {
-                low[u] = min(low[u], in[v]);   // we have a back edge here
+            else if (v != par[u]) {
+                low[u] = min(low[u], in[v]);   // we have a back edge here, which is not to the parent
             }
         }
         if(par[u] == u) { // this is the root of the dfs tree
