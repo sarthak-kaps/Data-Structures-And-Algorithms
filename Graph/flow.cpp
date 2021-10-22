@@ -79,7 +79,8 @@ public :
         return T(0); // we are unsuccesful in pushing any flow, return empty flow
     }
 
-    T max_flow() { // returns the maximum flow in the graph
+    T max_flow(int source, int sink) { // returns the maximum flow in the graph between source and sink
+        s = source, t = sink;
         level.assign(level.size(), -1);
         T flow = T(0);
         T max_flow = numeric_limits<T>::max(); // maximum flow
@@ -89,7 +90,7 @@ public :
                 return flow; 
             }
             while (true) {
-                T extra_flow = dfs(s, max_flow);
+                T extra_flow = flow_dfs(s, max_flow);
                 if (extra_flow == 0) { // we have saturated an edge in every s-t path
                     break;
                 }
