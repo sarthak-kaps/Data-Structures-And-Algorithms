@@ -1,4 +1,4 @@
-# CP
+# Data Structures And Algorithms
 
 My implementations for various important data structures and algorithms.
 
