@@ -17,7 +17,7 @@ using namespace std;
  */
 
 template <class T>
-vector<typename undigraph<T>::edge> cut_vertices_and_bridges(undigraph<T>& g) {
+vector<vector<typename undigraph<T>::edge>> cut_vertices_and_bridges(undigraph<T>& g) {
     vector<int> par(g.n);  // par[u] is the parent of vertex u
     vector<int> in(g.n);   // in[u] is the time at which vertex u is first traversed during dfs
     vector<int> out(g.n);  // out[u] is the time at which vertex u exits after completing the dfs under its subtree
