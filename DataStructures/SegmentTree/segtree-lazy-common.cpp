@@ -9,8 +9,6 @@ using namespace std;
  * Refer to details in the generic implementation
 */
 
-constexpr int __inf = 1e9;
-
 class segtree_node {
 public :
     /* Class Data Members */
@@ -19,12 +17,10 @@ public :
     * constructor: identity element of monoid (you should have the neutral values)
     * constructor: element created by combining 2 elements
     */
-    typedef int dtype; // change this to long long if required
     int l, r;
-    dtype mn, mx, sum, gap;
+    int mn, mx, sum, gap;
     segtree_node() {
-       mn =  __inf, mx = -__inf,  sum = 0, gap = 0;
-       l = -1, r = -1;
+        mn = 0, mx = 0, sum = 0;
     }
     segtree_node(const segtree_node& one, const segtree_node& two) {
         l = one.l;
@@ -68,16 +64,14 @@ public :
     }  
 };
 
-template <class M, class F>
+template <class M = segtree_node, class F = Function>
 class segtree {
 // M is a node
 // F is a function
 // remember to set leaf nodes from calling function
 public:
     static void identity_check() {
-        if(!F().is_identity()) {
-            cout << "Default Constructor is not identity !!!" << endl;
-        }
+        assert(F().is_identity());
     }
 
 private:
@@ -100,13 +94,15 @@ public:
         n(v.size()), values(segtree_size(v.size())), pends(values.size()) {identity_check(); assign(v);}
 
     explicit segtree(int _n):
-        n(_n), values(segtree_size(_n)), pends(values.size()) {identity_check();}
+        n(_n), values(segtree_size(_n)), pends(values.size()) {identity_check(); assign(vector<M>(n));}
 private:
     // build function with vector of leaves 
     void assign_values(int root, int first, int last, vector<M> &a) {
         // root has the node number, first and last have the array indices.
         if(first == last) {
             values[root] = a[first];
+            values[root].l = values[root].r = first;
+            values[root].gap = 1;
         }
         else {
             int left = 2 * root + 1;
@@ -119,8 +115,8 @@ private:
 
 public:
     // assign every leaf corresponding vector entry
-    void assign(vector<M>& v) {
-        assert(v.size() == n); 
+    void assign(vector<M> v) {
+        assert((int) v.size() == n); 
         assign_values(0, 0, n - 1, v);
     }
 
@@ -190,7 +186,6 @@ public:
     }
 };
 
-
 // test code
 
 int main(void) {
@@ -200,13 +195,10 @@ int main(void) {
     for(int i = 0; i < n; i++) {
        cin >> v[i];
     }
-    vector<segtree_node> leaves(n);
-    for(int i = 0; i < n; i++) {
-       leaves[i].mn = leaves[i].mx = leaves[i].sum = v[i];
-       leaves[i].l = leaves[i].r = i;
-       leaves[i].gap = 1;
+    segtree s(n);
+    for (int i = 0; i < n; i++) {
+        s.update(i, i, Function(1, v[i]));
     }
-    segtree<segtree_node, Function> s(leaves);
     int q;
     cin >> q;
     while(q --> 0) {

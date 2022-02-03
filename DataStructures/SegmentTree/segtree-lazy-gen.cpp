@@ -47,7 +47,7 @@ public :
 
 };
 
-template <class M, class F>
+template <class M = segtree_node, class F = Function>
 class segtree {
 // M is a node
 // F is a function
@@ -79,7 +79,7 @@ public:
         n(v.size()), values(segtree_size(v.size())), pends(values.size()) {identity_check(); assign(v);}
 
     explicit segtree(int _n):
-        n(_n), values(segtree_size(_n)), pends(values.size()) {identity_check();}
+        n(_n), values(segtree_size(_n)), pends(values.size()) {identity_check(); assign(vector<M>(n));}
 private:
     // build function with vector of leaves 
     void assign_values(int root, int first, int last, vector<M> &a) {
@@ -98,7 +98,7 @@ private:
 
 public:
     // assign every leaf corresponding vector entry
-    void assign(vector<M>& v) {
+    void assign(vector<M> v) {
         assert(v.size() == n); 
         assign_values(0, 0, n - 1, v);
     }
@@ -168,4 +168,3 @@ public:
         update(0, 0, n - 1, l, r, f);
     }
 };
-
