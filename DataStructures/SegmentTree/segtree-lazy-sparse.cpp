@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 /*
  * [Description] : Generic Sparse Segment Tree
  * By sparse we mean that the nodes are not stored contiguously and are allocated dynamically when required
@@ -17,9 +18,6 @@ using namespace std;
  * An example code is put for understanding
 */
 
-constexpr int __inf = 1e9;
-
-
 class segtree_node {
 public :
     /* Class Data Members */
@@ -30,20 +28,20 @@ public :
     */
     typedef int data_type;
     int l, r, gap;
-    data_type mn, mx, sum;
+    data_type sum, mn, mx;
  
-    segtree_node() {
-        l = -1, r = -1;
-        gap = 0;
-        mx = -__inf, mn = __inf, sum = 0;
+    segtree_node(int l = -1, int r = -1) : l(l), r(r) {
+        gap = r - l + 1;
+        mn = 0; mx = 0;
+        sum = 0;
     }
 
     segtree_node(const segtree_node& one, const segtree_node& two) {
         l = one.l;
         r = two.r;
         gap = one.gap + two.gap;
-        mn = min(one.mn, two.mn);
         mx = max(one.mx, two.mx);
+        mn = min(one.mn, two.mn);
         sum = one.sum + two.sum;
     } 
 };
@@ -73,8 +71,6 @@ public :
     }  
     segtree_node operator()(const segtree_node& node) {
         segtree_node ans = node;
-        ans.mn = a * node.mn + b;
-        ans.mx = a * node.mx + b;
         ans.sum = a * ans.sum + b * node.gap;
         return ans;
     }  
@@ -100,7 +96,9 @@ private:
         F pends;
         node* left;
         node* right;
-        node(M values, F pends) : values(values), pends(pends) {}        
+        node(M values, F pends) : values(values), pends(pends) {
+            left = NULL, right = NULL;
+        }        
     };
     
     node* root;
@@ -111,35 +109,44 @@ public:
         root = new node(value, func);
         value_init = value;
         func_init = func;
-        root->left = nullptr;
-        root->right = nullptr;
     }
-
+    
 private:
     // lazy propagation
-    void propagate(node* root) {
+    
+    inline void set_left(node* root) {
+        int mid = (root->values.l + root->values.r) / 2;
+        if(root->left == nullptr) {
+            root->left = new node(value_init, func_init);
+            root->left->values.l = root->values.l;
+            root->left->values.r = mid;
+            root->left->values.gap = (mid - root->left->values.l + 1);
+        }
+    }
+
+    inline void set_right(node* root) {
+        int mid = (root->values.l + root->values.r) / 2;
+        if(root->right == nullptr) {
+            root->right = new node(value_init, func_init);
+            root->right->values.l = mid + 1;
+            root->right->values.r = root->values.r;
+            root->right->values.gap = (root->right->values.r - mid);
+        }
+    }
+    
+    inline void propagate(node* root) {
         if(!root->pends.is_identity()) {
             root->values = root->pends(root->values);
             int mid = (root->values.l + root->values.r) / 2;
-           
-            if(root->left == nullptr) {
-                root->left = new node(value_init, func_init);
-                root->left->values.l = root->values.l;
-                root->left->values.r = mid;
-                root->left->values.gap = (mid - root->left->values.l + 1);
-            }
-            if(root->right == nullptr) {
-                root->right = new node(value_init, func_init);
-                root->right->values.l = mid + 1;
-                root->right->values.r = root->values.r;
-                root->right->values.gap = (root->right->values.r - mid);
-            }
+            set_left(root);
+            set_right(root);
             root->left->pends =  F(root->pends, root->left->pends);
             root->right->pends  = F(root->pends, root->right->pends);
             
             root->pends = F();
         }
     }
+    
     // query from range l to r (zero indexing)
     M query(node* root, int l, int r) {
         propagate(root);
@@ -148,18 +155,8 @@ private:
         }
         else {
             int mid = (root->values.l + root->values.r) / 2;
-            if(root->left == nullptr) {
-                root->left = new node(value_init, func_init);
-                root->left->values.l = root->values.l;
-                root->left->values.r = mid;
-                root->left->values.gap = (mid - root->left->values.l + 1);
-            }
-            if(root->right == nullptr) {
-                root->right = new node(value_init, func_init);
-                root->right->values.l = mid + 1;
-                root->right->values.r = root->values.r;
-                root->right->values.gap = (root->right->values.r - mid);
-            }
+            set_left(root);
+            set_right(root);
             if(l > mid) {
                 return query(root->right, l, r);
             }
@@ -189,18 +186,8 @@ private:
         else {
             propagate(root); 
             int mid = (root->values.l + root->values.r) / 2;
-            if(root->left == nullptr) {
-                root->left = new node(value_init, func_init);
-                root->left->values.l = root->values.l;
-                root->left->values.r = mid;
-                root->left->values.gap = (mid - root->left->values.l + 1);
-            }
-            if(root->right == nullptr) {
-                root->right = new node(value_init, func_init);
-                root->right->values.l = mid + 1;
-                root->right->values.r = root->values.r;
-                root->right->values.gap = (root->right->values.r - mid);
-            }
+            set_left(root);
+            set_right(root);
             if(l > mid) {
                 update(root->right, l, r, f);
             }
@@ -224,14 +211,12 @@ public:
     }
 };
 
-
 // test code
 
 int main(void) {
-    segtree_node s_node;
-    s_node.l = 0, s_node.r = 1e9;
-    s_node.gap = s_node.r - s_node.l + 1;
-    s_node.mn = 0, s_node.mx = 0, s_node.sum = 0;
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    segtree_node s_node(0, (int) 1e9 + 1);
     segtree_sparse<segtree_node, Function> s(s_node, Function());
     int q;
     cin >> q;
@@ -243,7 +228,7 @@ int main(void) {
             cin >> x >> y;
             --x, --y;
             auto res = s.query(x, y);
-            cout << res.mn << ' ' << res.mx << ' ' << res.sum << endl;
+            cout << res.mn << ' ' << res.mx << ' ' << res.sum << '\n';
         }
         else {
             int x, y;
