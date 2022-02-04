@@ -30,6 +30,8 @@ public :
     }
 
     void add(int u, int v, T cap) {
+        const int n = (int) g.size();
+        assert(0 <= u and u < n and 0 <= v and v < n);
         g[u].push_back(edges.size());
         edges.push_back({u, v, cap, 0});
         g[v].push_back(edges.size());
@@ -39,12 +41,13 @@ public :
     bool flow_bfs() {  // check if t is reachable from s in the residual graph
         queue<int> q;
         q.push(s);
+        level.assign(level.size(), -1);
         level[s] = 0;
         while (!q.empty()) {
             int top = q.front();
             q.pop();
             for (auto& i : g[top]) {
-                flow_edge& e = edges[g[top][i]];
+                flow_edge& e = edges[i];
                 if (e.cap - e.flow > 0 and level[e.to] == -1) {  // use only those edges where there is scope to push flow
                     level[e.to] = level[e.from] + 1;
                     q.push(e.to);
@@ -83,6 +86,9 @@ public :
         s = source, t = sink;
         level.assign(level.size(), -1);
         T flow = T(0);
+        for (auto& i : g[s]) {
+            flow += edges[i].flow;
+        }
         T max_flow = numeric_limits<T>::max(); // maximum flow
         while (true) {
             bool res = flow_bfs(); // check reachability
