@@ -111,4 +111,14 @@ public :
         }
         return flow;
     }
+
+    T min_cut(vector<int>& partition) {
+        T cut_size = max_flow(s, t);
+        for (int i = 0; i < (int) g.size(); i++) {
+            if (level[i] != -1) {  // vertices reachable from s are in S cut
+                partition.push_back(i);
+            }
+        }
+        return cut_size;
+    }
 };
